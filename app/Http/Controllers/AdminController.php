@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Chat;
 use Illuminate\Http\Request;
-
+use db;
 class AdminController extends Controller
 {
     /**
@@ -15,6 +16,8 @@ class AdminController extends Controller
     public function index()
     {
         //
+        //dd($users);
+        return view('admin');
     }
 
     /**

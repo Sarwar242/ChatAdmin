@@ -11,13 +11,18 @@
 
         <!-- Fonts -->
         <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
       
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <!-- Styles -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		
         <link href="{{ asset('css/app.css') }}?ver=1.1" rel="stylesheet">
         <link href="{{ asset('css/chat.css') }}?ver=1.1" rel="stylesheet">
         <script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
+        
     </head>
     <body>
         <div id="app">
@@ -65,9 +70,11 @@
                 @yield('content')
             </main>
               <!-- Scripts -->
-       
+              <script src="{{asset('js/chat.js')}}?ver=1.1"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"> 
             <script src="{{asset('js/app.js')}}?ver=1.1"></script>
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
         </div>
     </body>
     </html>

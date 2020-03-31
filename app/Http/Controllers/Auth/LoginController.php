@@ -58,4 +58,11 @@ class LoginController extends Controller
         }
         return back()->withInput($request->only('email', 'remember'));
     }
+
+    public function logout(Request $request)
+    {
+        $this->guard('admin')->logout();
+        $request->session()->invalidate();
+        return redirect()->route('index');
+    }
 }

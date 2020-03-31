@@ -15,16 +15,15 @@ class CreateChatinfosTable extends Migration
     {
         Schema::create('chatinfos', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('user_id');
-            $table->string('user_refresh')->default('NO');
-            $table->string('admin_refresh')->default('NO');
-            $table->string('user_initialrefresh')->default('NO');
-            $table->string('admin_initialrefresh')->default('NO');
+            $table->unsignedBigInteger('chat_id');
+            $table->boolean('user_refresh')->default(0);
+            $table->boolean('admin_refresh')->default(0);
+            $table->boolean('user_initialrefresh')->default(0);
+            $table->boolean('admin_initialrefresh')->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')
-            ->references('id')->on('users')
+            $table->foreign('chat_id')
+            ->references('id')->on('chats')
             ->onDelete('cascade');
         });
     }

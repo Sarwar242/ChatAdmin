@@ -16,7 +16,9 @@ class CreateChatsTable extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('user_status')->comment('Sent||Received');
+            $table->boolean('is_sent')
+                ->default(0)
+                ->comment('Sent(1)||Received(0)');
             $table->boolean('is_userseen')->default(0);
             $table->boolean('is_adminseen')->default(0);
             $table->text('message');

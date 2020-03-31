@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Chat;
 use Illuminate\Http\Request;
+use Auth;
 
 class ChatController extends Controller
 {
@@ -27,27 +28,45 @@ class ChatController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'msg' => 'required',
+        ]);
+        $chat= new Chat;
+        $chat->user_id=Auth::id();
+        $chat->is_sent = 1;
+        $chat->is_userseen =1;
+        $chat->message =$request->msg;
+        $chat->save();
+
+        return json_encode(['status' => 'success',
+            'message' => 'Sent']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Chat $chat)
+    
+   
+    public function storeAdmin(Request $request)
     {
-        //
+        $this->validate($request, [
+            'msg' => 'required',
+            'user_id' => 'required',
+        ]);
+        $chat= new Chat;
+        $chat->user_id=$request->user_id;
+        $chat->is_sent = 0;
+        $chat->is_userseen =0;
+        $chat->is_adminseen =1;
+        $chat->message =$request->msg;
+        $chat->save();
+
+        return json_encode(['status' => 'success',
+            'message' => 'Sent']);
     }
+
+    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -55,29 +74,19 @@ class ChatController extends Controller
      * @param  \App\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chat $chat)
+    public function getUsers()
     {
-        //
+        
+        $users=Chat::orderby('created_at', 'desc')->get()->unique('user_id');
+        foreach($users as $chats)
+        {
+            $name=$chats->user->name;
+        }
+  
+        return json_encode($users);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Chat $chat)
     {
         //

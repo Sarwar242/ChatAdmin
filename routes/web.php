@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-    Route::view('/', 'welcome');
+    Route::view('/', 'welcome')->name('index');
     Auth::routes();
 
     Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
@@ -24,5 +24,14 @@ use Illuminate\Support\Facades\Route;
     Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
   
     Route::view('/home', 'home')->middleware('auth');
-    Route::view('/admin', 'admin');
+    Route::get('/admin', 'AdminController@index')->name('admin')->middleware('auth:admin');
+
+
+    Route::post('/chats/store', 'ChatController@store')->name('chat.store');
+    Route::post('/chatsAdmin/store', 'ChatController@storeAdmin')->name('chat.admin.store');
   
+
+    Route::get('/get-messages/{id}', function ($id) {
+        return json_encode(App\Chat::where('user_id', $id)->get());
+    });
+    Route::get('/get-users', 'ChatController@getUsers')->name('users.get');

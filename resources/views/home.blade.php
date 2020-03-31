@@ -1,117 +1,47 @@
 @extends('layouts.auth')
 
 @section('content')
-
+<input style="display:none;" id="user_id" type="number" value="{{Auth::id()}}">
 <div class="container text-center">
 	<div class="row">
-		<h2>Open in chat (popup-box chat-popup)</h2>
+		<h2>Open in chat (popup-box chat-popup)</h2><br>
+		<hr>
         <h4>Click Here</h4>
         <div class="round hollow text-center">
         <a href="#" id="addClass"><span class="glyphicon glyphicon-comment"></span> Open in chat </a>
-        </div>
-        
-        <hr>
-        
-        MORE :
-        <a target="_blank" href="http://bootsnipp.com/snippets/33ejn">Whatsapp Chat Box POPUP</a>,
-         <a target="_blank" href="http://bootsnipp.com/snippets/z4P39"> Creative User Profile  </a>
-         
+        </di>
+         <hr> 
 	</div>
 </div>
 
 
 <div class="popup-box chat-popup" id="qnimate">
-    		  <div class="popup-head">
-				<div class="popup-head-left pull-left"><img src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" alt="iamgurdeeposahan"> Gurdeep Osahan</div>
-					  <div class="popup-head-right pull-right">
-						<div class="btn-group">
-    								  <button class="chat-header-button" data-toggle="dropdown" type="button" aria-expanded="false">
-									   <i class="glyphicon glyphicon-cog"></i> </button>
-									  <ul role="menu" class="dropdown-menu pull-right">
-										<li><a href="#">Media</a></li>
-										<li><a href="#">Block</a></li>
-										<li><a href="#">Clear Chat</a></li>
-										<li><a href="#">Email Chat</a></li>
-									  </ul>
-						</div>
-						
-						<button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button"><i class="glyphicon glyphicon-off"></i></button>
-                      </div>
-			  </div>
-			<div class="popup-messages">
-    		
-			
-			
-			
-			<div class="direct-chat-messages">
-                    
-					
-					<div class="chat-box-single-line">
-								<abbr class="timestamp">October 8th, 2015</abbr>
-					</div>
-					
-					
-					<!-- Message. Default to the left -->
-                    <div class="direct-chat-msg doted-border">
-                      <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-left">Osahan</span>
-                      </div>
-                      <!-- /.direct-chat-info -->
-                      <img alt="message user image" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" class="direct-chat-img"><!-- /.direct-chat-img -->
-                      <div class="direct-chat-text">
-                        Hey bro, how’s everything going ?
-                      </div>
-					  <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-timestamp pull-right">3.36 PM</span>
-                      </div>
-						<div class="direct-chat-info clearfix">
-						<span class="direct-chat-img-reply-small pull-left">
-							
-						</span>
-						<span class="direct-chat-reply-name">Singh</span>
-						</div>
-                      <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-					
-					
-					<div class="chat-box-single-line">
-						<abbr class="timestamp">October 9th, 2015</abbr>
-					</div>
-								
-					<!-- Message. Default to the left -->
-                    <div class="direct-chat-msg doted-border">
-                      <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-left">Osahan</span>
-                      </div>
-                      <!-- /.direct-chat-info -->
-                      <img alt="iamgurdeeposahan" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" class="direct-chat-img"><!-- /.direct-chat-img -->
-                      <div class="direct-chat-text">
-                        Hey bro, how’s everything going ?
-                      </div>
-					  <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-timestamp pull-right">3.36 PM</span>
-                      </div>
-						<div class="direct-chat-info clearfix">
-						  <img alt="iamgurdeeposahan" src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg" class="direct-chat-img big-round">
-						<span class="direct-chat-reply-name">Singh</span>
-						</div>
-                      <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-                  </div>
+    <div class="popup-head">
+		<div class="popup-head-left pull-left"><img src="{{asset('img/admin.png')}}" alt="iamgurdeeposahan"> Admin</div>
+			<div class="popup-head-right pull-right">			
+				<button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button">
+					<svg class="bi bi-x-circle-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  						<path fill-rule="evenodd" d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-4.146-3.146a.5.5 0 00-.708-.708L8 7.293 4.854 4.146a.5.5 0 10-.708.708L7.293 8l-3.147 3.146a.5.5 0 00.708.708L8 8.707l3.146 3.147a.5.5 0 00.708-.708L8.707 8l3.147-3.146z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+            </div>
+		</div>
+		<div class="popup-messages">	
+			<div id="chat-message" class="card-body msg_card_body">
 				
 			</div>
-			<div class="popup-messages-footer">
-			<textarea id="status_message" placeholder="Type a message..." rows="10" cols="40" name="message"></textarea>
-			<div class="btn-footer">
-			<button class="bg_none"><i class="glyphicon glyphicon-film"></i> </button>
-			<button class="bg_none"><i class="glyphicon glyphicon-camera"></i> </button>
-            <button class="bg_none"><i class="glyphicon glyphicon-paperclip"></i> </button>
-			<button class="bg_none pull-right"><i class="glyphicon glyphicon-thumbs-up"></i> </button>
-			</div>
-			</div>
-	  </div>
-
-      <script src="{{asset('js/chat.js')}}?ver=1.1"></script>
+		</div>
+		<div class="card-footer">
+			<div class="input-group">
+				<div class="input-group-append">
+					<span class="input-group-text attach_btn"><!-- <i class="fas fa-paperclip"></i> --></span>
+				</div>
+				<textarea id="message" name="message" class="form-control type_msg" placeholder="Type your message..."></textarea>
+				<div class="input-group-append">
+					<span class="input-group-text send_btn" id="send"><i class="fas fa-location-arrow"></i></span>
+				</div>
+			</div>					
+		</div>
+	</div>
+</div>
 @endsection
