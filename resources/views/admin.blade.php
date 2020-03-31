@@ -1,6 +1,6 @@
 @extends('layouts.auth')
     @section('content')
-	<button id="chat">chat</button>
+	<button id="chat">Refresh</button>
     <div class="container-fluid h-100">
 			<div class="row justify-content-center h-100">
 				<div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">

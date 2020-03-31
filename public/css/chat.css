@@ -3,7 +3,6 @@
 body,html
 {
     font-family: 'Open Sans', sans-serif;
-    
 	margin: 0;
     }
 .popup-box {
@@ -246,12 +245,12 @@ border-radius: 25px;
 background-color: #82ccdd;
 padding: 10px;
 position: relative;
-min-width: 30%;
+min-width: 35%;
 }
 .msg_cotainer_send{
 margin-top: auto;
 margin-bottom: auto;
-min-width: 30%;
+min-width: 35%;
 margin-right: 10px;
 border-radius: 25px;
 background-color: #78e08f;
@@ -315,4 +314,9 @@ background-color: rgba(0,0,0,0.2);
 @media(max-width: 576px){
 .contacts_card{
 margin-bottom: 15px !important;
+}
+}
+
+#chat-message-admin{
+    text-align: center !important;
 }

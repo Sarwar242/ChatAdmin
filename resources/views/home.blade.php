@@ -34,7 +34,7 @@
 		<div class="card-footer">
 			<div class="input-group">
 				<div class="input-group-append">
-					<span class="input-group-text attach_btn"><!-- <i class="fas fa-paperclip"></i> --></span>
+					<span id ="scroll" class="input-group-text attach_btn"><!-- <i class="fas fa-paperclip"></i> --></span>
 				</div>
 				<textarea id="message" name="message" class="form-control type_msg" placeholder="Type your message..."></textarea>
 				<div class="input-group-append">
@@ -44,4 +44,11 @@
 		</div>
 	</div>
 </div>
+
+<script>       
+		$("#addClass").click(function() {
+			$('.popup-box').scrollTop( $('.popup-box').height() );
+        
+        });
+</script>
 @endsection

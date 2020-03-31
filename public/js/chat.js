@@ -7,7 +7,9 @@ $(function(){
               $('#qnimate').removeClass('popup-box-on');
                 });
     $("#addClass").click(function() {
-
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+       hour: '2-digit', minute: '2-digit' };
+       var options2 = { hour: '2-digit', minute: '2-digit' };
 
     var messages = " ";
     var user_id=$("#user_id").val();
@@ -18,25 +20,58 @@ $(function(){
         function(data) {
             var d = JSON.parse(data);
             d.forEach(function(element) {
-                //console.log(element);
-                if(element.is_sent){
-                  messages += "<div class='d-flex justify-content-start mb-4'>"
-              +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
-              +"<div class='msg_cotainer'>"+element.message+
-              "<span class='msg_time_send'>8:55 AM, Today</span></div></div>";
-              }else{
-                messages += "<div class='d-flex justify-content-end mb-4'>"
+              //console.log(element);
+              var time  = new Date(element.updated_at);
+              var d = new Date();
+            if(time.getDate()==d.getDate()){
+              if(element.is_sent){
+                messages += "<div class='d-flex justify-content-start mb-4'>"
+            +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
+            +"<div class='msg_cotainer'>"+element.message+
+            "<span class='msg_time_send'>Today "+time.toLocaleTimeString("en-US", options2)+"</span></div></div>";
+            }else{
+  
+              messages += "<div class='d-flex justify-content-end mb-4'>"
               +"<div class='msg_cotainer_send'>"+element.message+
-              "<span class='msg_time_send'>9:00 AM, Today</span></div>"
+              "<span class='msg_time_send'>Today "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
               +"<div class='img_cont_msg'>"+
               "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-              }
-            });
+             
+            }}
+            else if(time.getDate()==d.getDate()-1){
+              if(element.is_sent){
+                messages += "<div class='d-flex justify-content-start mb-4'>"
+            +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
+            +"<div class='msg_cotainer'>"+element.message+
+            "<span class='msg_time_send'>Yesterday "+time.toLocaleTimeString("en-US", options2)+"</span></div></div>";
+            }else{
+  
+              messages += "<div class='d-flex justify-content-end mb-4'>"
+              +"<div class='msg_cotainer_send'>"+element.message+
+              "<span class='msg_time_send'>Yesterday "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
+              +"<div class='img_cont_msg'>"+
+              "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
+             
+            }}
+            else{
+              if(element.is_sent){
+                messages += "<div class='d-flex justify-content-start mb-4'>"
+            +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
+            +"<div class='msg_cotainer'>"+element.message+
+            "<span class='msg_time_send'>"+time.toLocaleDateString("en-US", options)+"</span></div></div>";
+            }else{
+  
+              messages += "<div class='d-flex justify-content-end mb-4'>"
+              +"<div class='msg_cotainer_send'>"+element.message+
+              "<span class='msg_time_send'>"+time.toLocaleDateString("en-US", options)+"</span></div>"
+              +"<div class='img_cont_msg'>"+
+              "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
+             
+            }
+            }
+          });
             $("#chat-message").html(messages);
-            $("#qnimate").scrollTop = $("#qnimate").scrollHeight - $("#qnimate").clientHeight;
         });
-
-        
       });
       
 
@@ -182,7 +217,6 @@ $(function(){
               if (data.status == 'success') {
                   console.log(data.status);
                   $("#messageAdmin").val("");
-                  $( "#addClass").click(); 
               }
           });
   });
