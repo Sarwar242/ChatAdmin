@@ -1,8 +1,25 @@
 $(function(){
+
+    $('#message').on('keypress', function(e) {
+
+        if(e.keyCode==13){
+             $('#send').trigger('click');
+         }
+    });
+
+
+    $('#messageAdmin').on('keypress', function(e) {
+
+        if(e.keyCode==13){
+             $('#sendAdmin').trigger('click');
+         }
+    });
+
+
     $("#addClass").click(function () {
               $('#qnimate').addClass('popup-box-on');
                 });
-              
+
     $("#removeClass").click(function () {
               $('#qnimate').removeClass('popup-box-on');
                 });
@@ -24,58 +41,58 @@ $(function(){
               var time  = new Date(element.updated_at);
               var d = new Date();
             if(time.getDate()==d.getDate()){
-              if(element.is_sent){
+              if(element.by_user){
                 messages += "<div class='d-flex justify-content-start mb-4'>"
             +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
             +"<div class='msg_cotainer'>"+element.message+
             "<span class='msg_time_send'>Today "+time.toLocaleTimeString("en-US", options2)+"</span></div></div>";
             }else{
-  
+
               messages += "<div class='d-flex justify-content-end mb-4'>"
               +"<div class='msg_cotainer_send'>"+element.message+
               "<span class='msg_time_send'>Today "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
               +"<div class='img_cont_msg'>"+
               "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-             
+
             }}
             else if(time.getDate()==d.getDate()-1){
-              if(element.is_sent){
+              if(element.by_user){
                 messages += "<div class='d-flex justify-content-start mb-4'>"
             +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
             +"<div class='msg_cotainer'>"+element.message+
             "<span class='msg_time_send'>Yesterday "+time.toLocaleTimeString("en-US", options2)+"</span></div></div>";
             }else{
-  
+
               messages += "<div class='d-flex justify-content-end mb-4'>"
               +"<div class='msg_cotainer_send'>"+element.message+
               "<span class='msg_time_send'>Yesterday "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
               +"<div class='img_cont_msg'>"+
               "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-             
+
             }}
             else{
-              if(element.is_sent){
+              if(element.by_user){
                 messages += "<div class='d-flex justify-content-start mb-4'>"
             +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
             +"<div class='msg_cotainer'>"+element.message+
             "<span class='msg_time_send'>"+time.toLocaleDateString("en-US", options)+"</span></div></div>";
             }else{
-  
+
               messages += "<div class='d-flex justify-content-end mb-4'>"
               +"<div class='msg_cotainer_send'>"+element.message+
               "<span class='msg_time_send'>"+time.toLocaleDateString("en-US", options)+"</span></div>"
               +"<div class='img_cont_msg'>"+
               "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-             
+
             }
             }
           });
             $("#chat-message").html(messages);
+            $('.popup-messages').scrollTop($("#chat-message")[0].scrollHeight);
         });
       });
-      
 
-    $("#send").click(function() {
+    $("#send").on('click', function() {
       $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -90,15 +107,18 @@ $(function(){
                 if (data.status == 'success') {
                     console.log(data.status);
                     $("#message").val("");
-                    $( "#addClass" ).click(); 
+                    $( "#addClass" ).trigger('click');
                 }
-            });
+            }).catch(function(e) {
+                $("#message").val("");
+                console.log(e);
+          });
     });
 
 
 
     //admin side
-    $("#chat").click(function(){
+    $("#chat").on('click', function(){
        $("#usersss").html("");
        let xyz=" ";
       $.get("http://127.0.0.1:8000/get-users",
@@ -111,13 +131,13 @@ $(function(){
             xyz += "<li> <div class='d-flex bd-highlight'>"
                 + "<div class='img_cont'>"
                  +  "<img src='img/user.png' class='rounded-circle user_img'>"
-                  + "<span class='online_icon'></span></div>"    
-                 +"<div  class='user_info'>"             
+                  + "<span class='online_icon'></span></div>"
+                 +"<div  class='user_info'>"
                + "<span class='see_message' style='cursor:pointer'>"+d4[key].user.name+
-               "<input type='hidden' id='uid' value='"+d4[key].user_id+"'>"
-               +"<input style='display:none' id='uname' value='"+d4[key].user.name+"'></input></span>"
+               "<input type='hidden' id='uid' value='"+d4[key].user_one+"'>"
+               +"<input style='display:none' id='uname' value='"+d4[key].user.name+"'></span>"
                  +  "<p id='n'> is online</p>"
-                 +"</div></div></li>";   
+                 +"</div></div></li>";
                  //console.log(key);
           }
           $("#usersss").html(xyz);
@@ -133,21 +153,20 @@ $(function(){
       var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
        hour: '2-digit', minute: '2-digit' };
        var options2 = { hour: '2-digit', minute: '2-digit' };
-    
+
       var messages = " ";
      // console.log(uid);
       //send an ajax req to servers
-    $.get("http://127.0.0.1:8000/get-messages/"+
-    uid,
+    $.get(`http://127.0.0.1:8000/get-messages/${uid}`,
     function(data) {
         var d = JSON.parse(data);
-        
+
         d.forEach(function(element) {
             //console.log(element);
             var time  = new Date(element.updated_at);
             var d = new Date();
           if(time.getDate()==d.getDate()){
-            if(element.is_sent){
+            if(element.by_user){
               messages += "<div class='d-flex justify-content-start mb-4'>"
           +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
           +"<div class='msg_cotainer'>"+element.message+
@@ -159,10 +178,10 @@ $(function(){
             "<span class='msg_time_send'>Today "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
             +"<div class='img_cont_msg'>"+
             "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-           
+
           }}
           else if(time.getDate()==d.getDate()-1){
-            if(element.is_sent){
+            if(element.by_user){
               messages += "<div class='d-flex justify-content-start mb-4'>"
           +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
           +"<div class='msg_cotainer'>"+element.message+
@@ -174,10 +193,10 @@ $(function(){
             "<span class='msg_time_send'>Yesterday "+time.toLocaleTimeString("en-US", options2)+"</span></div>"
             +"<div class='img_cont_msg'>"+
             "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-           
+
           }}
           else{
-            if(element.is_sent){
+            if(element.by_user){
               messages += "<div class='d-flex justify-content-start mb-4'>"
           +"<div class='img_cont_msg'> <img src='img/user.png' class='rounded-circle user_img_msg'></div>"
           +"<div class='msg_cotainer'>"+element.message+
@@ -189,17 +208,18 @@ $(function(){
             "<span class='msg_time_send'>"+time.toLocaleDateString("en-US", options)+"</span></div>"
             +"<div class='img_cont_msg'>"+
             "<img src='img/admin.png' class='rounded-circle user_img_msg'></div></div>";
-           
+
           }
           }
         });
 
         $("#chat-message-admin").html(messages);
-        
+        $('#chat-message-admin').scrollTop($("#chat-message-admin")[0].scrollHeight);
+
     });
   });
-  
-  $("#sendAdmin").click(function() {
+
+  $("#sendAdmin").on("click", function() {
     $.ajaxSetup({
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -207,7 +227,7 @@ $(function(){
   });
     var msg = $.trim($("#messageAdmin").val());
     var user_id=$("#uxd").val();
-   
+
       $.post("/chatsAdmin/store", {
               msg: msg,
               user_id:user_id
@@ -216,6 +236,7 @@ $(function(){
               data = JSON.parse(data);
               if (data.status == 'success') {
                   console.log(data.status);
+                  $(".see_message").click();
                   $("#messageAdmin").val("");
               }
           });

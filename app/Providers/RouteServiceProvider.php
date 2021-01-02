@@ -42,6 +42,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        \Broadcast::routes();
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();

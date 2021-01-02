@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
-use App\Chat;
+use App\Models\Admin;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use db;
 class AdminController extends Controller

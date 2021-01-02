@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+Broadcast::channel('chat-{id}', function ($user) {
+    // dd($user);
+    if(Auth::check())
+        return true;
+    return false;
+  });
+
+Broadcast::channel('chat-admin', function ($admin) {
+        return true;
+  },['guards' => ['admin']]);

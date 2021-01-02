@@ -7,35 +7,52 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
 } catch (e) {}
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
+let token = document.head.querySelector('meta[name="csrf-token"]');
+import Echo from 'laravel-echo';
 
-// import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
 
-// window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    // wsHost: 'http://127.0.0.1:8000',
+    // wsPort: 6001,
+    encrypted : false,
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': token,
+        },
+    },
+});
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     encrypted: true
-// });
+let userId= $('#user_id').val();
+if(userId){
+    window.Echo.private('chat-'+userId)
+    .listen('MessageSent', (data) => {
+        console.log(data.message.message);
+        $('#addClass').trigger('click');
+        console.log(data.message);
+    });
+}
+
+let adminId = $('#admin_id').val();
+
+if(adminId){
+    console.log(adminId);
+    window.Echo.private('chat-admin')
+    .listen('MessageToAdmin', (data) => {
+        console.log(data.message);
+        $('.see_message').trigger('click');
+    });
+}
